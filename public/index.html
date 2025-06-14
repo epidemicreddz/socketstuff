@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Socket.io Button</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <style>
+        #btn { width: 200px; height: 50px; font-size: 18px; background-color: red; }
+    </style>
+</head>
+<body>
+
+    <button id="btn">Click Me</button>
+
+<script>
+    const socket = io();
+    const button = document.getElementById('btn');
+    let isRed = true; // Track current color
+
+    button.addEventListener('click', () => {
+        isRed = !isRed;
+        socket.emit('buttonClicked', isRed); // Send the new state to the server
+    });
+
+    socket.on('changeColor', (newState) => {
+        button.style.backgroundColor = newState ? 'red' : 'green';
+    });
+</script>
+
+
+
+</body>
+</html>
+
