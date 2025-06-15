@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>Socket.io Button</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <style>
+		html, body {    touch-action: manipulation;}
+        #btn { width: 200px; height: 50px; font-size: 18px; background-color: red; }
+    </style>
+</head>
+<body>
+
+    <button id="btn">Click Me</button>
+	<video id="stayAwakeVideo" autoplay loop muted playsinline>
+		<source src="your-silent-video.mp4" type="video/mp4">
+	</video>
+
+<script>
+    const socket = io();
+    const button = document.getElementById('btn');
+    
+    let userId = Math.random().toString(36).substr(2, 9); // Generate random user ID
+    console.log(`User ID: ${userId}`);
+
+    button.addEventListener('click', () => {
+        const timestamp = Date.now();
+        socket.emit('buttonClicked', { userId, timestamp }); // Send user ID + timestamp
+    });
+
+    socket.on('latency', ({ userId, latency }) => {
+        console.log(`User ${userId} Latency: ${latency}ms`);
+    });
+</script>
+
+
+
+
+
+</body>
+</html>
+
